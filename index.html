@@ -11,18 +11,13 @@
   </svg>
   
   <body>
-    <p>
-      This is a paragraph.
-      
-      pi = <script>document.write(Math.PI)</script>
-    </p>
-
     <p>Here are the magic numbers from Lost: <span id="data"></span></p>
     <svg class="chart" height=500 width=120></svg>
     <script>
       var data = [4,8,15,16,23,42];
       document.getElementById("data").innerHTML = data;
-      d3.selectAll("rect").
+      d3.select(".chart").
+        selectAll("rect").
         data(data).
         enter().
         append("rect").
