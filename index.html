@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<script src="http://d3js.org/d3.vs.min.js"></script>
+<style> .chart rect {fill:steelblue} </style>
+
 <html>
   <svg height=350 width=300 style="border:solid;">
     <rect x=50 y=50 height=200 width=100></rect>
@@ -5,16 +9,27 @@
       <circle r=50></circle>
     </g>
   </svg>
+  
   <body>
-    <h1>
-      This is a heading.
-    </h1>
-    <button>
-      This is a button.
-    </button>
     <p>
       This is a paragraph.
+      
       pi = <script>document.write(Math.PI)</script>
     </p>
+
+    <p>Here are the magic numbers from Lost: <span id="data"></span></p>
+    <svg class="chart" height=500 width=120></svg>
+    <script>
+      var data = [4,8,15,16,23,42];
+      document.getElementById("data").innerHTML = data;
+      d3.selectAll("rect").
+        data(data).
+        enter().
+        append("rect").
+        attr("width", 19).
+        attr("height", function(d) {return 10*d;}).
+        attr("x", function(d,i) {return 20*i;}).
+        attr("y", function(d) {return 420 - 10*d;});
+    </script>
   </body>
 </html>
