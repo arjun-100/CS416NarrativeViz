@@ -2,30 +2,20 @@
 <script src="http://d3js.org/d3.vs.min.js"></script>
 <style> .chart rect {fill:steelblue} </style>
 
-<html>
-  <body>
-    <p>Here are the magic numbers from Lost: <span id="data"></span></p>
-    <svg class="chart" height=500 width=120></svg>
-    <script>
-      var data = [4,8,15,16,23,42];
-      document.getElementById("data").innerHTML = data;
-      d3.select(".chart").
-        selectAll("rect").
-        data(data).
-        enter().
-        append("rect").
-        attr("width", 19).
-        attr("height", function(d) {return 10*d;}).
-        attr("x", function(d,i) {return 20*i;}).
-        attr("y", function(d) {return 420 - 10*d;});
-    </script>
-
-    <svg height=350 width=300 style="border:solid;">
-      <rect x=50 y=50 height=200 width=100></rect>
-      <g transform="translate(200,50)">
-        <circle r=50></circle>
-      </g>
-    </svg>
-    
-  </body>
-</html>
+<html><body>
+  <p>Here are the magic numbers from Lost: <span id="data"></span></p>
+  <svg class="chart" height=500 width=120></svg>
+  <script>
+    var data = [4,8,15,16,23,42];
+    document.getElementById("data").innerHTML = data;
+    d3.select(".chart").
+      selectAll("rect").
+      data(data).
+      enter().
+      append("rect").
+      attr("width", 19).
+      attr("height", function(d) {return 10*d;}).
+      attr("x", function(d,i) {return 20*i;}).
+      attr("y", function(d) {return 420 - 10*d;});
+  </script>
+</body></html>
