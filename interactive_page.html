@@ -1,101 +1,167 @@
 <!doctype html>
 <html>
   <head>
-    <style> 
-      body {
-        font-family: 'Courier New', monospace;
-      }
-      h1, h3 {
-        color: RebeccaPurple;
-      }
-      .chart rect {
-        fill: steelblue;
-      }
-      .button {
-        background-color: RebeccaPurple;
-        color: white;
-        padding: 14px 30px;
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
-        display: inline-block;
-        font-size: 20px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-      }
-      .button:hover{
-        background-color: white;
-        color: RebeccaPurple;
-        border: 2px solid RebeccaPurple;
-      }
-      #tooltip {
-        opacity: 0;
-        position: absolute;
-        text-align: center;
-        width: 60px;
-        height: 40px;
-        background: white;
-        border: 0px;
-      }
-    </style>
+    <link rel="stylesheet" href="style_sheet.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
 
   <body onload='init()'>
     <h1 align='center'> Gun Violence in the U.S. </h1>
-    
-    <div style="position: relative; right: 0px; top: 80px; width: 180px; padding: 10px;"> Number of Mass Shootings </div>
 
-    <div id="tooltip"></div>
-    <svg class="chart" width=1600 height=800></svg>
+    <h>Choose one: </h><br>
+    <Select id="dropdown">
+        <option value="Number of Incidents per Year"> Number of Incidents per Year </option>
+        <option value="Average Age of Shooter"> Average Age of Shooter </option>
+        <option value="Average Fatalities per Year"> Average Fatalities per Year </option>
+        <option value="Total Fatalities per Year"> Total Fatalities per Year </option>
+        <option value="Average Victims per Year"> Average Victims per Year </option>
+        <option value="Total Victims per Year"> Total Victims per Year </option>
+    </Select>
+
+    <button  onclick="init()"> Plot Values </button>
+    <p id="demo"></p>
+    <div><svg class="chart" width=1600 height=600></svg></div>
+
     <script>
-      async function init(){
 
-        const data = await d3.csv('https://raw.githubusercontent.com/arjun-100/CS416NarrativeViz/main/gun_violence.csv');
+        async function init(){
+            
+            const data = await d3.csv('https://raw.githubusercontent.com/arjun-100/CS416NarrativeViz/main/gun_violence.csv');
 
-        var svg = d3.select("svg"),
-          pad = 80,
-          margin = 150,
-          width = svg.attr("width") - 2*margin,
-          height = svg.attr("height") - margin;
+            var dropdown = document.getElementById('dropdown');
+            var value = dropdown.options[dropdown.selectedIndex].text;
 
-        var xScale = d3.scaleBand().domain(data).range([0,width]).padding(0.1);
-        var yScale = d3.scaleLinear().domain([0,15]).range([height,0]);
+            document.getElementById('demo').innerHTML = "Selected: " + value;
 
-        var g = svg.append("g").attr("transform", "translate(" +pad+ "," +pad+ ")");
-        g.append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(xScale)
-                .tickFormat( function(d){return d.year;} )
-          )
-          .selectAll("text")  
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", ".14em")
-          .attr("transform", "rotate(-55)");
-        g.append("g")
-          .call(d3.axisLeft(yScale)
-                .tickFormat( function(d){return d;} )
-                .ticks(5)
-          );
+            d3.selectAll("svg > *").remove();
+            var pad = 80,
+                margin = 150,
+                width = d3.select("svg").attr("width") - 2 * margin,
+                height = d3.select("svg").attr("height") - margin;
+            var xScale = d3.scaleBand().domain(data).range([0,width]).padding(0.1);
 
-        var tooltip = d3.select("#tooltip");
+            var svg = d3.select("svg").append("g")
+                .attr("transform", "translate(" +pad+ "," +pad+ ")");
+            svg.append("g").attr("transform", "translate(0," +height+ ")")
+            .call(d3.axisBottom(xScale)
+                .tickFormat( function(d){return d.year;} ))
+            .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".14em")
+            .attr("transform", "rotate(-55)");
+            
 
-        g.selectAll(".chart")
-          .data(data)
-          .enter().append("rect")
-          .attr("x", function(d){return xScale(d);} )
-          .attr("y", function(d){return yScale(d.count);} )
-          .attr("width", xScale.bandwidth())
-          .attr("height", function(d){return height - yScale(d.count);} )
-          .on("mouseover", function(d,i) {
-            tooltip.style("opacity", 1)
-              .style("left", (d3.event.pageX)+"px")
-              .style("top", (d3.event.pageY)+"py")
-              .html("Item #" + i + " is " + d);
-          })
-          .on("mouseout", function() {tooltip.style("opacity", 0)});
-      }
-  
+            if (value === "Number of Incidents per Year") {
+                plotCount(data, svg, height, xScale);
+            } else if (value === "Average Age of Shooter") {
+                plotAvgAge(data, svg, height, xScale);
+            } else if (value === "Average Fatalities per Year") {
+                plotAvgFatalities(data, svg, height, xScale);
+            } else if (value === "Total Fatalities per Year") {
+                plotTotalFatalities(data, svg, height, xScale);
+            } else if (value === "Average Victims per Year") {
+                plotAvgVictims(data, svg, height, xScale);
+            } else if (value === "Total Victims per Year") {
+                plotTotalVictims(data, svg, height, xScale);
+            }
+        }
+
+        function plotCount(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,15]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.count);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.count);} );
+
+            return g;
+        }
+
+        function plotAvgAge(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,70]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.avg_age);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.avg_age);} );
+
+            return g;
+        }
+
+        function plotAvgFatalities(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,16]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.avg_fatalities);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.avg_fatalities);} );
+
+            return g;
+        }
+
+        function plotTotalFatalities(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,120]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.total_fatalities);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.total_fatalities);} );
+
+            return g;
+        }
+
+        function plotAvgVictims(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,70]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.avg_victims);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.avg_victims);} );
+
+            return g;
+        }
+
+        function plotTotalVictims(data, svg, height, xScale) {
+            var yScale = d3.scaleLinear().domain([0,700]).range([height,0]);
+            var g = svg.append("g")
+            .call(d3.axisLeft(yScale)
+                .tickFormat( function(d){return d;} ).ticks(5));
+            g.selectAll(".chart")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function(d){return xScale(d);} )
+                .attr("y", function(d){return yScale(d.total_victims);} )
+                .attr("width", xScale.bandwidth())
+                .attr("height", function(d){return height - yScale(d.total_victims);} );
+
+            return g;
+        }
     </script>
 
     <h3 align='center'> This chart displays the number of gun violence incidents per year. </h3>
