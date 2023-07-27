@@ -1,0 +1,25 @@
+body {
+    font-family: 'Courier New', monospace;
+}
+h1, h3 {
+    color: RebeccaPurple;
+}
+.chart rect {
+    fill: steelblue;
+}
+.button {
+    background-color: RebeccaPurple;
+    color: white;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    display: inline-block;
+    font-size: 20px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: white;
+    color: RebeccaPurple;
+    border: 2px solid RebeccaPurple;
+}
