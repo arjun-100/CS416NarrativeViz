@@ -1,42 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <style> 
-      body {
-        font-family: 'Courier New', monospace;
-      }
-      h1, h3 {
-        color: RebeccaPurple;
-      }
-      .chart rect {
-        fill: steelblue;
-      }
-      .button {
-        background-color: RebeccaPurple;
-        color: white;
-        padding: 14px 30px;
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
-        display: inline-block;
-        font-size: 20px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-      }
-      .button:hover{
-        background-color: white;
-        color: RebeccaPurple;
-        border: 2px solid RebeccaPurple;
-      }
-      #tooltip {
-        opacity: 0;
-        position: absolute;
-        text-align: center;
-        width: 60px;
-        height: 40px;
-        background: white;
-        border: 0px;
-      }
-    </style>
+    <link rel="stylesheet" href="style_sheet.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
 
@@ -45,10 +10,9 @@
     
     <div style="position: relative; right: 0px; top: 80px; width: 180px; padding: 10px;"> Average Fatalities per year </div>
 
-    <div id="tooltip"></div>
-    <svg class="chart" width=1600 height=800></svg>
+    <svg class="chart" width=1600 height=600></svg>
     <script>
-      async function init(){
+      async function init() {
 
         const data = await d3.csv('https://raw.githubusercontent.com/arjun-100/CS416NarrativeViz/main/gun_violence.csv');
 
@@ -65,8 +29,7 @@
         g.append("g")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(xScale)
-                .tickFormat( function(d){return d.year;} )
-          )
+                .tickFormat( function(d){return d.year;} ))
           .selectAll("text")  
           .style("text-anchor", "end")
           .attr("dx", "-.8em")
@@ -74,16 +37,11 @@
           .attr("transform", "rotate(-55)");
         g.append("g")
           .call(d3.axisLeft(yScale)
-                .tickFormat( function(d){return d;} )
-                .ticks(5)
-          );
-
-        var tooltip = d3.select("#tooltip");
+                .tickFormat( function(d){return d;} ).ticks(5));
 
         g.selectAll(".chart")
           .data(data)
-          .enter()
-          .append("rect")
+          .enter().append("rect")
           .attr("x", function(d){return xScale(d);} )
           .attr("y", function(d){return yScale(d.avg_fatalities);} )
           .attr("width", xScale.bandwidth())
