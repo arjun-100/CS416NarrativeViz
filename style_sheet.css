@@ -1,13 +1,54 @@
 body {
     font-family: 'Courier New', monospace;
+    background-color: cornsilk;
 }
-h1, h3 {
+
+.page-title {
+    text-align: center; 
     color: RebeccaPurple;
 }
+
+.context {
+    position: relative; 
+    left: 10px; 
+    top: -20px; 
+    padding: 10px;
+}
+
+.chart-title {
+    position: relative; 
+    top: -20px; 
+    text-align: center; 
+    color: RebeccaPurple;
+}
+
+.y-label {
+    position: relative; 
+    top: -40px; 
+    width: 180px; 
+    padding: 10px; 
+    font-size: 15px
+}
+
+.chart {
+    position: relative; 
+    top: -115px; 
+}
+
 .chart rect {
     fill: steelblue;
 }
+
+.annotation {
+    position: relative; 
+    width: 300px; 
+    font-size: 12.5px
+}
+
 .button {
+    position: relative; 
+    top: -310px; 
+    left: 1250px; 
     background-color: RebeccaPurple;
     color: white;
     padding: 14px 30px;
