@@ -6,20 +6,36 @@
   </head>
 
   <body onload='init()'>
-    <h1 align='center'> Gun Violence in the U.S. </h1>
+    <h1 class="page-title"> Gun Violence in the U.S. </h1>
 
-    <h>Choose one: </h><br>
-    <Select id="dropdown">
-        <option value="Number of Incidents per Year"> Number of Incidents per Year </option>
-        <option value="Average Age of Shooter"> Average Age of Shooter </option>
-        <option value="Average Fatalities per Year"> Average Fatalities per Year </option>
-        <option value="Total Fatalities per Year"> Total Fatalities per Year </option>
-        <option value="Average Victims per Year"> Average Victims per Year </option>
-        <option value="Total Victims per Year"> Total Victims per Year </option>
-    </Select>
+    <div class="context">
+        <p> This is your opportunity to engage with the data and explore trends in different measures, 
+            including but not limited to what we have seen. The available measures to explore are 
+            <em> Number of Incidents per Year </em>, <em> Average Age of Shooter </em>, 
+            <em> Average Fatalities per Year </em>, <em> Total Fatalities per Year </em>, 
+            <em> Average Victims per Year </em>, and <em> Total Victims per Year </em>. 
+            Through your interaction with the data, you may look for further evidence that the United 
+            States' issues with gun violence are worsening as time goes on. </p>
+      </div>
 
-    <button  onclick="init()"> Plot Values </button>
-    <p id="demo"></p>
+    <div style="position: relative; top: -20px;">
+        <h>Choose one: </h><br>
+        <Select id="dropdown" style="background-color: white; border: 2px solid RebeccaPurple;">
+            <option value="Number of Incidents per Year"> Number of Incidents per Year </option>
+            <option value="Average Age of Shooter"> Average Age of Shooter </option>
+            <option value="Average Fatalities per Year"> Average Fatalities per Year </option>
+            <option value="Total Fatalities per Year"> Total Fatalities per Year </option>
+            <option value="Average Victims per Year"> Average Victims per Year </option>
+            <option value="Total Victims per Year"> Total Victims per Year </option>
+        </Select>
+        <button onclick="init()" style="background-color: RebeccaPurple; color: white; border: 2px RebeccaPurple; padding: 8px; border-radius: 8px; font-size: 15px; cursor: pointer;"> Plot Values </button>
+    </div>
+
+
+    <h3 class="chart-title" id="title-filler"></h3>
+
+    <div class="y-label" id="axis-filler"></div>
+
     <div><svg class="chart" width=1600 height=600></svg></div>
 
     <script>
@@ -31,7 +47,8 @@
             var dropdown = document.getElementById('dropdown');
             var value = dropdown.options[dropdown.selectedIndex].text;
 
-            document.getElementById('demo').innerHTML = "Selected: " + value;
+            document.getElementById('title-filler').innerHTML = value;
+            document.getElementById('axis-filler').innerHTML = value;
 
             d3.selectAll("svg > *").remove();
             var pad = 80,
@@ -164,7 +181,6 @@
         }
     </script>
 
-    <h3 align='center'> This chart displays the number of gun violence incidents per year. </h3>
 
   </body>
 </html>
