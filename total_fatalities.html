@@ -6,11 +6,20 @@
   </head>
 
   <body onload='init()'>
-    <h1 align='center'> Gun Violence in the U.S. </h1>
+    <h1 class="page-title"> Gun Violence in the U.S. </h1>
+
+    <div class="context">
+      <p> Since average fatalities are dependent on the number (frequency) per year, we can instead analyze the total fatalities per year. This gives a better visual of the 
+      severity of the gun violence issue in the U.S. Clearly, gun violence is a serious issue that is rapidly worsening, and as a nation we must understand and address this problem 
+      urgently. The annotations below highlight some of the major incidents of high-fatality years. </p>
+    </div>
     
-    <div style="position: relative; right: 0px; top: 80px; width: 180px; padding: 10px;"> Total Fatalities per year </div>
+    <h3 class="chart-title"> Total Number of Gun Violence Fatalities per Year </h3>
+
+    <div class="y-label"> Total Fatalities per Year </div>
 
     <svg class="chart" width=1600 height=600></svg>
+
     <script>
       async function init() {
 
@@ -50,11 +59,27 @@
   
     </script>
 
-    <h3 align='center'> This chart displays the total number of shooting fatalities per year. </h3>
-
-    <div>
-      <button onclick="window.location.href = 'interactive_page.html';" class="button"> Next </button>
+    <div class="annotation" style="top:-390px; left:530px;"> 
+      1999: <br> Columbine High School <br> 13 dead
     </div>
+
+    <div class="annotation" style="top:-480px; left:810px; width:300px;"> 
+      2007: <br> Virginia Tech <br> 32 dead
+    </div>
+
+    <div class="annotation" style="top:-590px; left:970px;"> 
+      2012: <br> Sandy Hook <br> 27 dead
+    </div>
+
+    <div class="annotation" style="top:-790px; left:950px;"> 
+      2016: Orlando nightclub. 49 dead <br> 2017: Las Vegas Strip. 58 dead <br> 2018: Parkland, FL. 17 dead
+    </div>
+
+    <div class="annotation" style="top:-690px; left:1300px;"> 
+      2022: <br> Uvalde, TX <br> 21 dead
+    </div>
+
+    <button onclick="window.location.href='interactive_page.html';" class="button"> Next </button>
 
   </body>
 </html>
