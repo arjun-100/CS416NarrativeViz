@@ -6,11 +6,19 @@
   </head>
 
   <body onload='init()'>
-    <h1 align='center'> Gun Violence in the U.S. </h1>
+    <h1 class="page-title"> Gun Violence in the U.S. </h1>
+
+    <div class="context">
+      <p> Now that we have seen how the number of mass shootings per year has increased, have the incidents 
+        themselves become more deadly? To answer this we plot the trend in average fatalities per year. </p>
+    </div>
     
-    <div style="position: relative; right: 0px; top: 80px; width: 180px; padding: 10px;"> Average Fatalities per year </div>
+    <h3 class="chart-title"> Average Number of Gun Violence Fatalities per Year </h3>
+
+    <div class="y-label"> Average Fatalities per year </div>
 
     <svg class="chart" width=1600 height=600></svg>
+    
     <script>
       async function init() {
 
@@ -50,11 +58,18 @@
   
     </script>
 
-    <h3 align='center'> This chart displays the average number of shooting fatalities per year. </h3>
-
-    <div>
-      <button onclick="window.location.href = 'total_fatalities.html';" class="button"> Next </button>
+    <div class="annotation" style="top:-540px; left:410px;"> 
+      The '80s and early '90s had the highest average fatalities according to our data. However, since this period 
+      had around 1 or 2 incidents per year (infrequent relative to recent years), we should hesitate to assume that 
+      shootings were deadlier in this period.
     </div>
+
+    <div class="annotation" style="top:-690px; left:950px; width:300px;"> 
+      From the '00s onward, average fatalities fluctuate greatly. From this it is not very clear 
+      whether shootings have become more deadly over time.
+    </div>
+
+    <button onclick="window.location.href = 'total_fatalities.html';" class="button"> Next </button>
 
   </body>
 </html>
